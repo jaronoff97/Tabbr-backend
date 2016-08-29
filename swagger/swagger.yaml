@@ -30,7 +30,7 @@ paths:
     get:
       description: |
         Returns all users given an account. Must be signed in
-      operationId: v1.allUsers
+      operationId: v1.route_methods.all_users
       parameters:
         - name: limit
           in: query
@@ -51,7 +51,7 @@ paths:
             $ref: '#/definitions/Error'
     post:
       description: Creates a new user in the store.  Duplicates are not allowed
-      operationId: v1.addUser
+      operationId: v1.route_methods.add_user
       parameters:
         - name: user
           in: body
@@ -78,7 +78,7 @@ paths:
         format: int64
     get:
       description: Returns a user based on a single ID, if the account does not have access to the user, error
-      operationId: v1.getUser
+      operationId: v1.route_methods.get_user
       responses:
         200:
           description: user response
@@ -90,7 +90,7 @@ paths:
             $ref: '#/definitions/Error'
     delete:
       description: deletes a single user based on the ID supplied
-      operationId: v1.deleteUser
+      operationId: v1.route_methods.delete_user
       responses:
         204:
           description: user deleted

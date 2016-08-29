@@ -1,26 +1,18 @@
-from flask import Flask
-from flask.ext.sqlalchemy import SQLAlchemy
+import connexion
+from flask_sqlalchemy import SQLAlchemy
 import os
 
 
-app = Flask(__name__)
-app.config.from_object(os.environ.get(
+app = connexion.App(__name__, specification_dir='./swagger/')
+flask_application = app.app
+flask_application.config.from_object(os.environ.get(
     'APP_SETTINGS', 'config.DevelopmentConfig'))
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-db = SQLAlchemy(app)
+flask_application.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db = SQLAlchemy(flask_application)
 
 from models.models import *
 
 
-@app.route('/')
-def hello():
-    return "Hello World!"
-
-
-@app.route('/<name>')
-def hello_name(name):
-    return "Hello {}!".format(name)
-
-
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0')
+    app.add_api('swagger.yaml')
+    app.run(debug=True)
